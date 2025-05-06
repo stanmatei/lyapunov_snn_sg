@@ -1,0 +1,83 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+env/
+.venv/
+.env/
+instance/
+_build/
+develop-eggs/
+parts/
+bin/
+sbin/
+lib/
+lib64/
+include/
+share/
+pip-log.txt
+pip-delete-this.txt
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Distribution / packaging
+.Python
+build/
+dist/
+sdist/
+*.spec
+*.tar
+*.tar.gz
+*.whl
+*.zip
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.log
+
+# mypy
+mypy-report/
+mypy_report/
+
+# Translations
+*.mo
+*.pot
+
+# Django stuff:
+*.log
+*.pot
+*/settings/local.py
+/local_settings.py
+
+# Flask stuff:
+instance/
+.webassets-cache
+
+# Scrapy stuff:
+.scrapy
+
+# Sphinx stuff:
+docs/_build/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# OS or Editor related files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.vscode/

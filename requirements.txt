@@ -1,0 +1,21 @@
+sympy==1.11
+numpy==1.26
+numpy
+torch
+scipy
+matplotlib      # plotting
+seaborn         # plotting
+h5py            # Data file format
+jupyter         # notebook support
+soundfile       
+tables
+torchvision
+tonic
+git+https://github.com/fzenke/randman
+git+https://github.com/fmi-basel/stork
+tqdm
+dysts
+ray
+pathlib
+snntorch
+scipy
