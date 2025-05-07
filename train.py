@@ -44,12 +44,13 @@ class RandmanDataset(Dataset):
     def __getitem__(self, idx):
         return self.dataset[idx][0], self.dataset[idx][1]
     
-def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, seed, device):
+def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, seed, device, use_scheduler):
 
   torch.manual_seed(seed)
   np.random.seed(seed)
   optimizer = optim.Adam(model.parameters(), lr = lr)
-  scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
+  if use_scheduler:
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
 
   dataset = dataloader.dataset
   train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
@@ -78,7 +79,8 @@ def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, s
 
       loss.backward()
       optimizer.step()
-      scheduler.step()
+      if use_scheduler:
+        scheduler.step()
 
       losses.append(loss.item())
       lyapunov_spectra.append(lyapunov_spectrum.detach().cpu().numpy())
@@ -119,13 +121,14 @@ def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, s
 
   return model, results
 
-def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_size, gradient_flossing_period, n_samples_streaming, seed, device):
+def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_size, gradient_flossing_period, n_samples_streaming, seed, device, use_scheduler):
 
   torch.manual_seed(seed)
   np.random.seed(seed)
   # Optimization setup
   optimizer = optim.Adam(model.parameters(), lr = lr)
-  scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
+  if use_scheduler:
+    scheduler = optim.lr_scheduler.CosineAnnealingLR(optimizer, T_max=n_epochs)
 
   dataset = train_dataloader.dataset
   train_dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
@@ -162,7 +165,8 @@ def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_si
 
     loss.backward()
     optimizer.step()
-    scheduler.step()
+    if use_scheduler:
+        scheduler.step()
     losses.append(loss.item())
 
     wandb.log({"train_loss":loss.item()})
@@ -291,7 +295,8 @@ def run(args):
         'batch_size' : args.prefloss_batch_size,
         'n_samples_streaming' : args.n_samples_streaming,
         'seed':args.seed_train,
-        "device": device
+        "device": device,
+        "use_scheduler": args.use_scheduler,
     }
 
     train_kwargs = {
@@ -304,7 +309,8 @@ def run(args):
         "gradient_flossing_period" : args.gradient_flossing_period,
         "n_samples_streaming" : args.n_samples_streaming,
         "seed" : args.seed_train,
-        "device" : device
+        "device" : device,
+        "use_scheduler": args.use_scheduler,
     }
     
     results = {}
@@ -329,15 +335,15 @@ def run(args):
     output_location = os.path.join(args.output_dir, d)
     output_location = os.path.join(output_location, t)
 
-    os.makedirs(output_location, exist_ok=True)
+    #os.makedirs(output_location, exist_ok=True)
 
-    with open(os.path.join(output_location, 'args.json'), 'w') as f:
-        json.dump(args_dict, f, indent=4)
+    #with open(os.path.join(output_location, 'args.json'), 'w') as f:
+    #    json.dump(args_dict, f, indent=4)
 
-    with open(os.path.join(output_location, 'results.pkl'), 'wb') as f:
-        pickle.dump(results, f)
+    #with open(os.path.join(output_location, 'results.pkl'), 'wb') as f:
+    #    pickle.dump(results, f)
 
-    torch.save(model, os.path.join(output_location, "model.pt"))
+    #torch.save(model, os.path.join(output_location, "model.pt"))
     
 
 if __name__ == "__main__":
@@ -387,6 +393,7 @@ if __name__ == "__main__":
     parser.add_argument("--seed_train", type=int, default=1)
     parser.add_argument("--prefloss", type=str2bool, default=False)
     parser.add_argument("--wandb_key", type=str)
+    parser.add_argument("--use_scheduler", type=str2bool, default=False)
     
     args = parser.parse_args()
 
