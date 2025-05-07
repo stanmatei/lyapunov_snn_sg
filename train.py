@@ -352,7 +352,7 @@ if __name__ == "__main__":
     parser.add_argument("--prefloss_batch_size", type=int, default=1)
     parser.add_argument("--lr_pf", type=float, default=1e-2)
     parser.add_argument("--lr_main", type=float, default=4e-3)
-    parser.add_argument("--n_epochs", type=int, default=1)
+    parser.add_argument("--n_epochs", type=int, default=3000)
     parser.add_argument("--n_preflossing_epochs", type=int, default=100)
     parser.add_argument("--gradient_flossing_period", type=int, default=4000)
     parser.add_argument("--seed_init", type=int, default=1)
