@@ -214,9 +214,9 @@ def run(args):
 
     experiment_name = str(json.dumps(vars(args)))
 
-    os.environ['WANDB_API_KEY'] = args.wandb_key
+    #os.environ['WANDB_API_KEY'] = args.wandb_key
 
-    wandb.login(key=args.wandb_key)
+    wandb.login()
     wandb.init(
         entity="snn_nlp",
         project="lyapunov_snn",
@@ -392,7 +392,7 @@ if __name__ == "__main__":
     parser.add_argument("--trainable_dt", type=str2bool, default=False)
     parser.add_argument("--seed_train", type=int, default=1)
     parser.add_argument("--prefloss", type=str2bool, default=False)
-    parser.add_argument("--wandb_key", type=str)
+    #parser.add_argument("--wandb_key", type=str)
     parser.add_argument("--use_scheduler", type=str2bool, default=False)
     
     args = parser.parse_args()
