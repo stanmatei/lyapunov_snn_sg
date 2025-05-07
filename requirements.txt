@@ -19,3 +19,4 @@ ray
 pathlib
 snntorch
 scipy
+wandb

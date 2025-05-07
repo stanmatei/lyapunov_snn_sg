@@ -31,6 +31,7 @@ import copy
 import math
 import datetime
 import json
+import wandb
 
 class RandmanDataset(Dataset):
     def __init__(self, randman_data) -> None:
@@ -84,6 +85,11 @@ def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, s
       membranes_out.append(mem_out.detach().cpu().numpy())
       spikes_out.append(spike_out.detach().cpu().numpy())
 
+      wandb.log({"prefloss_loss":loss.item()})
+      wandb.log({"prefloss_spike_rate":torch.mean(spike_out).item()})
+      wandb.log({"prefloss_largest_le":lyapunov_spectrum[0][0].item()})
+
+
       if epoch % 10 == 0:
           #plot_rasters([spike_out], 1)
           #plot_mambrane_voltages([mem_out], 1, 1)
@@ -91,6 +97,7 @@ def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, s
           h0 = torch.zeros((inputs.shape[1], model.nb_hidden * 2), dtype=torch.float32, requires_grad = True).to(device)
           dht_dh0 = get_dht_dh0(model, inputs, h0, model.prediction_times[-1], step_size = 50)
           list_dht_dh0.append(dht_dh0)
+          wandb.log({"prefloss_dht_dh0":dht_dh0[-1]})
 
           print(f"Epoch {epoch}: Loss = {loss.item()}")
           #plot_lyapunov_and_loss(lyapunov_spectrum[0].detach().cpu().numpy(), losses)
@@ -158,6 +165,8 @@ def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_si
     scheduler.step()
     losses.append(loss.item())
 
+    wandb.log({"train_loss":loss.item()})
+
     if epoch % 20 == 0:
       with torch.no_grad():
         print(f"Epoch {epoch}: Loss = {loss.item()}")
@@ -176,6 +185,7 @@ def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_si
 
         n_batch = inputs.shape[1]
         acc = acc / (n_test * n_batch * num_labels)
+        wandb.log({"test_acc":acc})
         print(f"Epoch {epoch}, Accuracy: {acc}")
         accuracies.append(acc)
 
@@ -197,6 +207,17 @@ def run(args):
             print("GPU is not available")
     else:
        device = torch.device("cpu")
+
+    experiment_name = str(json.dumps(vars(args)))
+
+    os.environ['WANDB_API_KEY'] = args.wandb_key
+
+    wandb.login(key=args.wandb_key)
+    wandb.init(
+        entity="snn_nlp",
+        project="lyapunov_snn",
+        config=vars(args),
+    )
     
     duration = args.nb_time_steps * args.dt
 
@@ -269,6 +290,7 @@ def run(args):
         'lr' : args.lr_pf,
         'batch_size' : args.prefloss_batch_size,
         'n_samples_streaming' : args.n_samples_streaming,
+        'seed':args.seed_train,
         "device": device
     }
 
@@ -364,6 +386,7 @@ if __name__ == "__main__":
     parser.add_argument("--trainable_dt", type=str2bool, default=False)
     parser.add_argument("--seed_train", type=int, default=1)
     parser.add_argument("--prefloss", type=str2bool, default=False)
+    parser.add_argument("--wandb_key", type=str, default="a85e0f4eaac81476b53d3b65b874b0f1ed6462e2")
     
     args = parser.parse_args()
 
