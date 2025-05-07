@@ -19,7 +19,6 @@ from stork.initializers import FluctuationDrivenCenteredNormalInitializer
 import seaborn as sns
 import pickle, os, gc
 import tqdm
-from dysts.flows import MackeyGlass
 import ray
 import pathlib
 import snntorch.spikeplot as splt
@@ -30,6 +29,8 @@ import torch.nn.utils.parametrize as parametrize
 from scipy.stats import ortho_group
 import copy
 import math
+import datetime
+import json
 
 class RandmanDataset(Dataset):
     def __init__(self, randman_data) -> None:
@@ -105,8 +106,8 @@ def prefloss(model, dataloader, n_epochs, lr, batch_size, n_samples_streaming, s
       "losses": losses,
       "lyapunov_spectra":lyapunov_spectra,
       "list_dht_dh0": list_dht_dh0,
-      "membranes_out": membranes_out,
-      "spikes_out":spikes_out,
+      #"membranes_out": membranes_out,
+      #"spikes_out":spikes_out,
   }
 
   return model, results
@@ -194,6 +195,8 @@ def run(args):
         else:
             device = torch.device("cpu")  # Set device to CPU
             print("GPU is not available")
+    else:
+       device = torch.device("cpu")
     
     duration = args.nb_time_steps * args.dt
 
@@ -256,6 +259,7 @@ def run(args):
         'mu_Win': args.mu_Win,
         'trainable_tau': args.trainable_tau,
         'trainable_dt': args.trainable_dt,
+        'device':device
     }
 
     prefloss_kwargs = {
@@ -280,6 +284,7 @@ def run(args):
         "seed" : args.seed_train,
         "device" : device
     }
+    
     results = {}
     model = SNNLyapunov(**kwargs)
     model= model.to(device)
@@ -294,19 +299,24 @@ def run(args):
 
     results["training_results"] = training_results
 
-    file_name = ""
     args_dict = vars(args)
 
-    for arg_key in args_dict.keys():
-       if arg_key != "output_dir":
-        file_name += arg_key + ":" + str(args_dict[arg_key]) + ";"
-    
-    output_location = os.path.join(args.output_dir, file_name)
+    results["args"] = args_dict
+
+    d, t = str(datetime.datetime.now()).split(" ")
+    output_location = os.path.join(args.output_dir, d)
+    output_location = os.path.join(output_location, t)
+
+    os.makedirs(output_location, exist_ok=True)
+
+    with open(os.path.join(output_location, 'args.json'), 'w') as f:
+        json.dump(args_dict, f, indent=4)
 
     with open(os.path.join(output_location, 'results.pkl'), 'wb') as f:
         pickle.dump(results, f)
-    torch.save(model, os.path.join(output_location, "model.pt"))
 
+    torch.save(model, os.path.join(output_location, "model.pt"))
+    
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
@@ -320,7 +330,7 @@ if __name__ == "__main__":
     parser.add_argument("--nb_time_steps", type=int, default=100)
     parser.add_argument("--step_frac", type=float, default=0.5)
     parser.add_argument("--nb_samples", type=int, default=1000)
-    parser.add_argument("--nb_spikes", type=int, nb_spikes=1)
+    parser.add_argument("--nb_spikes", type=int, default=1)
     parser.add_argument("--alpha", type=float, default=3)
     parser.add_argument("--randmanseed", type=int, default=2)
     parser.add_argument("--dt", type=float, default=2e-3)
@@ -342,7 +352,7 @@ if __name__ == "__main__":
     parser.add_argument("--prefloss_batch_size", type=int, default=1)
     parser.add_argument("--lr_pf", type=float, default=1e-2)
     parser.add_argument("--lr_main", type=float, default=4e-3)
-    parser.add_argument("--n_epochs", type=int, default=3000)
+    parser.add_argument("--n_epochs", type=int, default=1)
     parser.add_argument("--n_preflossing_epochs", type=int, default=100)
     parser.add_argument("--gradient_flossing_period", type=int, default=4000)
     parser.add_argument("--seed_init", type=int, default=1)
