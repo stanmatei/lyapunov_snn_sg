@@ -386,7 +386,7 @@ if __name__ == "__main__":
     parser.add_argument("--trainable_dt", type=str2bool, default=False)
     parser.add_argument("--seed_train", type=int, default=1)
     parser.add_argument("--prefloss", type=str2bool, default=False)
-    parser.add_argument("--wandb_key", type=str, default="a85e0f4eaac81476b53d3b65b874b0f1ed6462e2")
+    parser.add_argument("--wandb_key", type=str)
     
     args = parser.parse_args()
 
