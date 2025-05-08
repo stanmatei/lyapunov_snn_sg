@@ -5,4 +5,5 @@
 #SBATCH --mem-per-cpu=2gb
 #SBATCH --cpus-per-task=1
 echo "$1"
-wandb agent "$1"
+echo "$2"
+wandb agent --count="$2" "$1"
