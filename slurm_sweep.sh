@@ -15,6 +15,7 @@ for ((i=1; i<=$2; i++)); do
     echo "date" >> $jobfile
     
     sbatch $jobfile
+    > $jobfile
     echo "waiting"
 done
 wait
