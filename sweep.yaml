@@ -61,3 +61,5 @@ parameters:
     values:
       - "false"
 program: train.py
+controller:
+  type: local
