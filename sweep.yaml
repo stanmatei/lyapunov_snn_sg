@@ -5,7 +5,7 @@ metric:
 parameters:
   g:
     distribution: categorical
-    vals:
+    values:
       - 5
       - 10
       - 20
