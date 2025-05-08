@@ -1,10 +1,10 @@
 #!/bin/bash
-NUM = 2
-SWEEP_ID = "snn_nlp/lyapunov_snn/m4poin1v"
+
+SWEEP_ID="snn_nlp/lyapunov_snn/m4poin1v"
 
 wandb sweep --update $SWEEP_ID sweep.yaml
 
-for ((i = 1; i <= $2; i++ )); do
+for ((i=1; i<=$2; i++)); do
     jobfile="sgf_job"
     
     echo "#!/bin/sh" >> $jobfile
