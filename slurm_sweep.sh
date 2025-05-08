@@ -8,4 +8,5 @@ for ((i=1; i<=$1; i++)); do
     sleep 30
     echo "waiting"
 done
+
 wait
