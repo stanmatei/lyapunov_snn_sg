@@ -40,6 +40,6 @@ if __name__ == "__main__":
     with open(save_path, "w") as f:
         f.write(sweep_str)
 
-    #sweep = wandb.controller(sweep_id)
-    #sweep.run()
+    sweep = wandb.controller(sweep_id)
+    sweep.run()
     
