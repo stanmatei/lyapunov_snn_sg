@@ -1,5 +1,8 @@
 #!/bin/bash
-sweep_id=$(python start_sweep.py --entity=snn_nlp --project=lyapunov_snn --config=sweep.yaml)
+
+start_sweep_job=start_sweep_job.sh
+sbatch $start_sweep_job
+sweep_id=$(< sweep_id.txt)
 echo "$sweep_id"
 jobfile=slurm_pass_forward.sh
 
