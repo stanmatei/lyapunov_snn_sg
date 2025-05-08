@@ -20,3 +20,4 @@ pathlib
 snntorch
 scipy
 wandb
+wandb[sweeps]
