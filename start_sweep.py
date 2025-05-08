@@ -29,7 +29,9 @@ if __name__ == "__main__":
 
     file_path = args.config
     sweep_config = load_yaml_to_dict(file_path)
-    
+
     with open(os.devnull, "w") as f, contextlib.redirect_stdout(f):
         sweep_id = wandb.sweep(sweep=sweep_config, entity=args.entity, project=args.project)
+    sweep = wandb.controller(sweep_id)
+    sweep.run()
     print(args.entity + "/" + args.project + "/" + sweep_id)
