@@ -12,19 +12,16 @@ parameters:
     max: 0.01
     min: 0.0001
   n_epochs:
-    value: 1500
+    value: 1000
   nle:
     distribution: int_uniform
-    max: 20
-    min: 4
+    values: [4, 15]
   output_dir:
     distribution: categorical
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    distribution: int_uniform
-    max: 300
-    min: 50
+    value: 250
   prefloss:
     distribution: categorical
     values:
@@ -47,20 +44,18 @@ parameters:
     min: 1
   sigma_Win:
     distribution: uniform
-    max: 16
+    max: 12
     min: 0.5
   sigma_v1:
     distribution: uniform
-    max: 16
+    max: 12
     min: 0.5
   trainable_dt:
     distribution: categorical
     values:
-      - "true"
       - "false"
   trainable_tau:
     distribution: categorical
     values:
-      - "true"
       - "false"
 program: train.py
