@@ -14,8 +14,10 @@ parameters:
   n_epochs:
     value: 1000
   nle:
-    distribution: int_uniform
-    values: [4, 15]
+    distribution: categorical
+    values: 
+      - 4
+      - 15
   output_dir:
     distribution: categorical
     values:
