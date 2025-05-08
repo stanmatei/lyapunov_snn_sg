@@ -1,6 +1,6 @@
 #!/bin/bash
-file_name="test.txt"
-wandb sweep --entity=snn_nlp --project=lyapunov_snn sweep.yaml
+sweep_id = $(python start_sweep.py --entity=snn_nlp --project=lyapunov_snn --config=sweep.yaml)
+echo $sweep_id
 jobfile=slurm_pass_forward.sh
 
 for ((i=1; i<=$1; i++)); do
