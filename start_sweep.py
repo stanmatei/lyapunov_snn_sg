@@ -28,4 +28,4 @@ if __name__ == "__main__":
     sweep_config = load_yaml_to_dict(file_path)
 
     sweep_id = wandb.sweep(sweep=sweep_config, entity=args.entity, project=args.project)
-    print(sweep_id)
+    print(args.entity + "/" + args.project + "/" + sweep_id)
