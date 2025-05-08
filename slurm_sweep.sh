@@ -1,11 +1,5 @@
 #!/bin/bash
 
-#SBATCH --job-name=sweep_launcher
-#SBATCH -c 1
-#SBATCH --time=8:00:00
-#SBATCH --mem-per-cpu=2gb
-#SBATCH --cpus-per-task=1
-
 python start_sweep.py --entity=snn_nlp --project=lyapunov_snn --config=sweep.yaml
 sweep_id_file=sweep_id.txt
 sweep_id=$(< "$sweep_id_file")
