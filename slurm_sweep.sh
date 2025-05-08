@@ -8,7 +8,7 @@ jobfile=slurm_pass_forward.sh
 
 for ((i=1; i<=$1; i++)); do
     sbatch $jobfile "$sweep_id" "$2"
-    sleep 5
+    sleep 2
     echo "waiting"
 done
 
