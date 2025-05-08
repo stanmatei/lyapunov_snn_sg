@@ -1,8 +1,8 @@
 #!/bin/bash
 
-SWEEP_ID="snn_nlp/lyapunov_snn/m4poin1v"
+#SWEEP_ID="snn_nlp/lyapunov_snn/m4poin1v"
 
-wandb sweep --update $SWEEP_ID sweep.yaml
+#wandb sweep --update $SWEEP_ID sweep.yaml
 
 for ((i=1; i<=$2; i++)); do
     jobfile="sgf_job"
@@ -13,7 +13,7 @@ for ((i=1; i<=$2; i++)); do
     echo "#SBATCH --time=24:00:00" >> $jobfile
     echo "#SBATCH --mem-per-cpu=2gb" >> $jobfile
     echo "#SBATCH --cpus-per-task=1" >>$jobfile
-    echo "wandb agent $SWEEP_ID" >>$jobfile
+    echo "wandb agent snn_nlp/lyapunov_snn/m4poin1v" >>$jobfile
     echo "date" >> $jobfile
     
     sbatch $jobfile
