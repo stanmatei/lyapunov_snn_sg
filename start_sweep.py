@@ -3,7 +3,6 @@ import argparse
 import wandb
 import os
 import contextlib
-from train import str2bool
 
 
 def load_yaml_to_dict(file_path):
@@ -26,7 +25,6 @@ if __name__ == "__main__":
     parser.add_argument("--entity", type=str)
     parser.add_argument("--project", type=str)
     parser.add_argument("--config", type=str)
-    parser.add_argument("--run_controller", type=str2bool, default=False)
     args = parser.parse_args()
 
     file_path = args.config
