@@ -34,6 +34,5 @@ if __name__ == "__main__":
         sweep_id = wandb.sweep(sweep=sweep_config, entity=args.entity, project=args.project)
     sweep = wandb.controller(sweep_id)
     sweep.configure_controller(type="local")
-    sweep.create()
     sweep.run()
     print(args.entity + "/" + args.project + "/" + sweep_id)
