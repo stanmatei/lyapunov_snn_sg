@@ -4,7 +4,7 @@ echo "$sweep_id"
 jobfile=slurm_pass_forward.sh
 
 for ((i=1; i<=$1; i++)); do
-    sbatch $jobfile $sweep_id
+    sbatch $jobfile "$sweep_id"
     sleep 30
     echo "waiting"
 done
