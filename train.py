@@ -164,7 +164,7 @@ def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_si
       loss = criterion(out, labels)
 
     loss.backward()
-    wandb.log({"v1_grad_norm":torch.norm(model.snn_layer.v1.grad).item()})
+    wandb.log({"v1_grad_norm":torch.norm(model.snn_layer.v1.weight.grad).item()})
     optimizer.step()
     if use_scheduler:
         scheduler.step()
