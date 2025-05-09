@@ -11,14 +11,10 @@ parameters:
       - 20
   lr_main:
     distribution: uniform
-    max: 0.01
+    max: 0.002
     min: 0.0001
   n_epochs:
     value: 2000
-  nle:
-    distribution: categorical
-    values: 
-      - 4
   output_dir:
     distribution: categorical
     values:
@@ -56,10 +52,9 @@ parameters:
   trainable_dt:
     distribution: categorical
     values:
-      - "true"
       - "false"
   trainable_tau:
     distribution: categorical
     values:
-      - "true"
+      - "false"
 program: train.py
