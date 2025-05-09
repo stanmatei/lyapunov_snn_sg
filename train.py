@@ -164,12 +164,14 @@ def train_model(model, train_dataloader, test_dataloader, n_epochs, lr, batch_si
       loss = criterion(out, labels)
 
     loss.backward()
+    wandb.log({"v1_grad_norm":torch.norm(model.snn_layer.v1.grad).item()})
     optimizer.step()
     if use_scheduler:
         scheduler.step()
     losses.append(loss.item())
 
     wandb.log({"train_loss":loss.item()})
+    
 
     if epoch % 20 == 0:
       with torch.no_grad():
