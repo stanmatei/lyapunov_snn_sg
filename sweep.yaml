@@ -44,11 +44,11 @@ parameters:
   sigma_Win:
     distribution: uniform
     max: 5
-    min: 0.005
+    min: 0.5
   sigma_v1:
     distribution: uniform
     max: 5
-    min: 0.005
+    min: 0.5
   trainable_dt:
     distribution: categorical
     values:
@@ -56,5 +56,10 @@ parameters:
   trainable_tau:
     distribution: categorical
     values:
+      - "false"
+  use_scheduler:
+    distribution: categorical
+    values:
+      - "true"
       - "false"
 program: train.py
