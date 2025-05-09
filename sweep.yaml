@@ -47,11 +47,11 @@ parameters:
     min: 1
   sigma_Win:
     distribution: uniform
-    max: 16
+    max: 5
     min: 0.005
   sigma_v1:
     distribution: uniform
-    max: 16
+    max: 5
     min: 0.005
   trainable_dt:
     distribution: categorical
