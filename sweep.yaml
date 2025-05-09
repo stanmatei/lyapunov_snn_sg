@@ -10,7 +10,7 @@ parameters:
       - 20
   lr_main:
     distribution: uniform
-    max: 0.002
+    max: 0.001
     min: 0.0001
   n_epochs:
     value: 2000
@@ -19,7 +19,7 @@ parameters:
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    value: 850
+    value: 650
   prefloss:
     distribution: categorical
     values:
@@ -42,7 +42,7 @@ parameters:
     min: 1
   sigma_Win:
     distribution: uniform
-    max: 6
+    max: 8
     min: 2
   sigma_v1:
     distribution: uniform
@@ -67,22 +67,22 @@ parameters:
   n_preflossing_epochs:
     distribution: categorical
     values:
-      - 250
-      - 500
-      - 1000
+      - 200
   nle:
     distribution: categorical
     values:
       - 4
-      - 15
-      - 50
   lr_pf:
     distribution: uniform
-    max: 0.005
+    max: 0.001
     min: 0.0001
   n_samples_streaming:
     distribution: categorical
     values:
       - 20
-  
+  ONSstep:
+    distribution: categorical
+    values:
+      - 2
+      - 10
 program: train.py
