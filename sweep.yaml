@@ -19,7 +19,7 @@ parameters:
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    value: 300
+    value: 500
   prefloss:
     distribution: categorical
     values:
@@ -46,7 +46,7 @@ parameters:
     min: 2
   sigma_v1:
     distribution: uniform
-    max: 6
+    max: 7
     min: 2
   trainable_dt:
     distribution: categorical
