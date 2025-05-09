@@ -63,7 +63,7 @@ parameters:
   prefloss:
     distribution: categorical
     values:
-      - "false"
+      - "true"
   n_preflossing_epochs:
     distribution: categorical
     values:
