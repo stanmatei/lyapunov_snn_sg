@@ -19,7 +19,7 @@ parameters:
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    value: 500
+    value: 750
   prefloss:
     distribution: categorical
     values:
