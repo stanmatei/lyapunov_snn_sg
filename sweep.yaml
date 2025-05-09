@@ -19,7 +19,7 @@ parameters:
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    value: 650
+    value: 850
   prefloss:
     distribution: categorical
     values:
@@ -80,5 +80,9 @@ parameters:
     distribution: uniform
     max: 0.005
     min: 0.0001
+  n_samples_streaming:
+    distribution: categorical
+    values:
+      - 20
   
 program: train.py
