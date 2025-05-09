@@ -24,7 +24,7 @@ parameters:
     values:
       - /engram/naplab/users/ms7240/results
   prediction_offset:
-    value: 300
+    value: 250
   prefloss:
     distribution: categorical
     values:
@@ -47,12 +47,12 @@ parameters:
     min: 1
   sigma_Win:
     distribution: uniform
-    max: 8
-    min: 0.05
+    max: 16
+    min: 0.005
   sigma_v1:
     distribution: uniform
-    max: 8
-    min: 0.05
+    max: 16
+    min: 0.005
   trainable_dt:
     distribution: categorical
     values:
@@ -62,5 +62,4 @@ parameters:
     distribution: categorical
     values:
       - "true"
-      - "false"
 program: train.py
